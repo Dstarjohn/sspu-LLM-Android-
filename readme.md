@@ -12,7 +12,7 @@ MindSearch（欢迎 Star）：https://github.com/InternLM/MindSearch
 
 [B站视频链接](https://www.bilibili.com/video/BV1Ai421a7R6/?vd_source=2812aff90e8f21adae9e69e7dbb6f269)
 
-![](.\lx_image\1.png)
+![](./lx_image/1.png)
 
 这里我就不展开了，直接实践，建议大家一步一步执行哈，了解下每条命令的含义
 
@@ -74,7 +74,7 @@ git submodule update --init --recursive
 
 我是直接本地通过代理访问[https://mlc.ai/wheels](https://mlc.ai/wheels)，然后下载的`mlc_ai_nightly_cu122-0.15.dev559-cp311-cp311-manylinux_2_28_x86_64.whl`和`mlc_llm_nightly_cu122-0.1.dev1520-cp311-cp311-manylinux_2_28_x86_64.whl`，然后上传到开发机里面去的，直接pip安装`python -m pip install mlc_llm_nightly_cu122-0.1.dev1522-cp311-cp311-manylinux_2_28_x86_64.whl mlc_ai_nightly_cu122-0.15.dev559-cp311-cp311-manylinux_2_28_x86_64.whl`命令安装本地whl文件。注意下，这里cuda和python的版本要和我们的环境一致。
 
-![](.\lx_image\2.png)
+![](./lx_image/2.png)
 
 继续使用 `mlc_llm` 的 `convert_weight` 对模型参数进行转换和量化，转换后的参数可以跨平台使用
 
@@ -126,7 +126,7 @@ https://huggingface.co/timws/internlm2_5-1_8b-chat-q4f16_1-MLC/tree/main
 
 上述流程如下截图
 
-![](.\lx_image\3.png)
+![](./lx_image/3.png)
 
 **记录一个问题**
 
@@ -138,25 +138,25 @@ https://huggingface.co/timws/internlm2_5-1_8b-chat-q4f16_1-MLC/tree/main
  fast_tokenizer = AutoTokenizer.from_pretrained(str(config.parent), use_fast=True)
 ```
 
-> ![](.\lx_image\10.png)
+> ![](./lx_image/10.png)
 >
 > 再次执行`mlc_llm gen_config /root/models/internlm2_5-1_8b-chat/      --quantization q4f16_1 --conv-template chatml      -o dist/internlm2_5-1_8b-chat-q4f16_1-MLC`即可正常运行
 >
-> ![](.\lx_image\9.png)
+> ![](./lx_image/9.png)
 
 这里是转换模型生成.so文件的截图
 
-![](.\lx_image\11.png)
+![](./lx_image/11.png)
 
 
 
 执行脚本`python3 a.py`，可能会出现以下报错。据我了解这个是cuda驱动版本的MLC库兼容性的问题，所以我们需要去了解MLC官方文档检查cuda相关信息，这里通过`nvcc --version`明确知道当前的CUDA版本为12.2.
 
-![](.\lx_image\6.png)
+![](./lx_image/6.png)
 
 记得上面的测试需要测试通过，生成可编译的.so二进制文件截图如下
 
-![](.\lx_image\5.png)
+![](./lx_image/5.png)
 
 这里简单小结一下，上面环境及mlc库的搭建部署的命令尤为重要，不要遗漏步骤（尤其是设置export环境变量的时候，重启开发机就需要重新设置），不然就会出现error或者其他环境问题，根据报错提示，去解决即可，上述流程在**InternStudio开发机**上并没有成功运行测试的模型，应该是服务器缺乏某些驱动组件原因导致的，出现上述**Aborted**报错，服务器毕竟是docker镜像，有些权限问题，网络问题可能会阻碍流程，强烈建议有本地服务器（**和云服务器类似配置或者Android端侧部署最低配置**）的同学，在本地调试，能够解决大家在开发机上遇到的问题
 
@@ -196,7 +196,7 @@ mlc_llm package
 
 结果如下：
 
-![](.\lx_image\7.png)
+![](./lx_image/7.png)
 
 然后我们创建签名，上面打包步骤存在报错的情况，建议检查export设置的环境变量的路径以及相关操作步骤是否正确运行。
 
@@ -314,11 +314,11 @@ cd root/mlc-llm/android/MLCChat
 
 
 
-![](.\lx_image\12.png)
+![](./lx_image/12.png)
 
 这个过程很慢，没有配置代理，编译了40min，在安装`app/build/outputs/apk/release`生成`app-release.apk`包,下载到手机上运行运行App需要可以访问huggingface下载模型（参考文档中的bundle方法需要ADB刷入模型数据）
 
-![](.\lx_image\13.png)
+![](./lx_image/13.png)
 
 ### 手机端运行体验
 
@@ -330,7 +330,7 @@ cd root/mlc-llm/android/MLCChat
 
 这里可能会出现apk无法正常安装及以下问题，
 
-![](.\lx_image\14.png)
+![](./lx_image/14.png)
 
 先需要执行，安装则连接手机，打开开发者模式，开启允许调试的请求，使用adb来安装
 
@@ -354,7 +354,7 @@ adb shell ls -la /storage/emulated/0/Android/data/ai.mlc.mlcchat/files/
 
 
 
-![](.\lx_image\15.png)
+![](./lx_image/15.png)
 
 ### 总结
 
